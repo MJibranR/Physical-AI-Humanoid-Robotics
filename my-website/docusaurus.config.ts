@@ -6,8 +6,13 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
   title: 'Physical AI & Humanoid Robotics',
-  tagline: 'Dinosaurs are cool',
+  tagline: 'Master the convergence of AI and robotics',
   favicon: 'img/favicon.ico',
+
+  // Custom fields for backend configuration
+  customFields: {
+    backendUrl: process.env.BACKEND_URL || 'http://localhost:8000',
+  },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -15,15 +20,15 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://physical-ai-humanoid-robotics.vercel.app',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  organizationName: 'YourGitHubUser', // Usually your GitHub org/user name.
+  projectName: 'Physical-AI-Humanoid-Robotics', // Usually your repo name.
 
   onBrokenLinks: 'throw',
 
@@ -44,7 +49,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -55,7 +60,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -77,16 +82,21 @@ const config: Config = {
     navbar: {
       title: 'Physical AI & Humanoid Robotics',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Physical AI Logo',
         src: 'img/logo.svg',
       },
       items: [
-        {to: '/docs/book-toc', label: 'Book', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          to: '/docs/book-toc',
+          label: 'Book',
+          position: 'left'
+        },
+        {
+          href: 'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics',
           label: 'GitHub',
           position: 'right',
-        },],
+        },
+      ],
     },
     footer: {
       style: 'dark',
@@ -122,12 +132,12 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics', // Placeholder
+              href: 'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics',
             },
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Physical AI & Humanoid Robotics. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,

@@ -1,42 +1,104 @@
-'use client';
+import React, { useState, useRef, useEffect } from 'react';
 
-import { useState } from 'react';
+interface Message {
+  type: 'user' | 'bot';
+  text: string;
+  sources?: Array<{ title: string; relevance_score: number }>;
+  timestamp: Date;
+}
 
 export default function AIAssistantFloat() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Hi! How can I help you today?' }
+  const [messages, setMessages] = useState<Message[]>([
+    { 
+      type: 'bot', 
+      text: 'Hi! I\'m your Physical AI & Humanoid Robotics assistant. Ask me anything about robotics, AI, ROS 2, humanoid design, or locomotion!',
+      timestamp: new Date()
+    }
   ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = () => {
-    if (!message.trim()) return;
+  // Backend URL - Change this to your deployed backend URL
+  const BACKEND_URL = 'http://localhost:8000';
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSend = async () => {
+    if (!message.trim() || isLoading) return;
     
-    setMessages([...messages, { type: 'user', text: message }]);
+    const userMessage = message.trim();
     setMessage('');
     
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        type: 'bot', 
-        text: 'Thanks for your message! Our team will get back to you shortly.' 
-      }]);
-    }, 1000);
+    const newUserMessage: Message = {
+      type: 'user',
+      text: userMessage,
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, newUserMessage]);
+    setIsLoading(true);
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: userMessage }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      const botMessage: Message = {
+        type: 'bot',
+        text: data.response,
+        sources: data.sources,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error calling backend:', error);
+      
+      const errorMessage: Message = {
+        type: 'bot',
+        text: 'I apologize, but I\'m having trouble connecting to the server. Please make sure the backend is running.',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       handleSend();
     }
   };
 
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString('en-US', { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
+
   return (
     <>
-      <style jsx>{`
+      <style>{`
         .ai-float-container {
           position: fixed;
           bottom: 40px;
           right: 24px;
-          z-index: 50;
+          z-index: 9999;
         }
 
         .ai-float-button {
@@ -85,6 +147,7 @@ export default function AIAssistantFloat() {
           background: #22c55e;
           border-radius: 50%;
           border: 2px solid white;
+          animation: pulse-dot 2s ease-in-out infinite;
         }
 
         @keyframes ping {
@@ -94,20 +157,43 @@ export default function AIAssistantFloat() {
           }
         }
 
+        @keyframes pulse-dot {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+
         .chat-window {
           position: fixed;
           bottom: 128px;
           right: 24px;
-          width: 370px;
-          height: 400px;
+          width: 420px;
+          max-width: calc(100vw - 48px);
+          height: 550px;
+          max-height: calc(100vh - 200px);
           background: white;
           border-radius: 16px;
           box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-          z-index: 50;
+          z-index: 9999;
           display: flex;
           flex-direction: column;
           overflow: hidden;
           border: 1px solid #e5e7eb;
+          animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .chat-header {
@@ -148,8 +234,9 @@ export default function AIAssistantFloat() {
 
         .chat-title p {
           font-size: 12px;
-          opacity: 0.8;
+          opacity: 0.9;
           margin: 0;
+          margin-top: 2px;
         }
 
         .close-btn {
@@ -181,23 +268,54 @@ export default function AIAssistantFloat() {
           gap: 16px;
         }
 
+        .chat-messages::-webkit-scrollbar {
+          width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
+        }
+
         .message {
           display: flex;
+          flex-direction: column;
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
 
         .message.user {
-          justify-content: flex-end;
+          align-items: flex-end;
         }
 
         .message.bot {
-          justify-content: flex-start;
+          align-items: flex-start;
         }
 
         .message-bubble {
-          max-width: 80%;
+          max-width: 85%;
           padding: 12px 16px;
           border-radius: 16px;
           word-wrap: break-word;
+          line-height: 1.5;
         }
 
         .message.user .message-bubble {
@@ -211,6 +329,81 @@ export default function AIAssistantFloat() {
           color: #1f2937;
           border-bottom-left-radius: 4px;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-time {
+          font-size: 11px;
+          color: #9ca3af;
+          margin-top: 4px;
+          padding: 0 4px;
+        }
+
+        .sources {
+          margin-top: 8px;
+          padding: 8px;
+          background: #f3f4f6;
+          border-radius: 8px;
+          font-size: 12px;
+        }
+
+        .sources-title {
+          font-weight: 600;
+          color: #4b5563;
+          margin-bottom: 4px;
+        }
+
+        .source-item {
+          color: #6b7280;
+          margin: 2px 0;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+        }
+
+        .source-badge {
+          background: #2563eb;
+          color: white;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-size: 10px;
+          font-weight: 600;
+        }
+
+        .loading-indicator {
+          display: flex;
+          gap: 4px;
+          padding: 12px 16px;
+          background: white;
+          border-radius: 16px;
+          border-bottom-left-radius: 4px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-dot {
+          width: 8px;
+          height: 8px;
+          background: #2563eb;
+          border-radius: 50%;
+          animation: bounce 1.4s ease-in-out infinite;
+        }
+
+        .loading-dot:nth-child(1) {
+          animation-delay: -0.32s;
+        }
+
+        .loading-dot:nth-child(2) {
+          animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+          0%, 80%, 100% {
+            transform: scale(0);
+            opacity: 0.5;
+          }
+          40% {
+            transform: scale(1);
+            opacity: 1;
+          }
         }
 
         .chat-input {
@@ -229,11 +422,17 @@ export default function AIAssistantFloat() {
           outline: none;
           font-size: 14px;
           font-family: inherit;
+          transition: all 0.2s;
         }
 
         .chat-input input:focus {
           border-color: #2563eb;
           box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .chat-input input:disabled {
+          background: #f9fafb;
+          cursor: not-allowed;
         }
 
         .send-btn {
@@ -249,9 +448,14 @@ export default function AIAssistantFloat() {
           transition: all 0.3s;
         }
 
-        .send-btn:hover {
+        .send-btn:hover:not(:disabled) {
           transform: scale(1.05);
           box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+        }
+
+        .send-btn:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
 
         .send-btn svg {
@@ -259,21 +463,33 @@ export default function AIAssistantFloat() {
           height: 20px;
           color: white;
         }
+
+        @media (max-width: 768px) {
+          .chat-window {
+            right: 12px;
+            bottom: 108px;
+            width: calc(100vw - 24px);
+          }
+
+          .ai-float-container {
+            right: 12px;
+            bottom: 20px;
+          }
+        }
       `}</style>
 
-      {/* Chat Window */}
       {isOpen && (
         <div className="chat-window">
           <div className="chat-header">
             <div className="chat-header-left">
               <div className="chat-avatar">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                 </svg>
               </div>
               <div className="chat-title">
-                <h3>AI Assistant</h3>
-                <p>Online now</p>
+                <h3>Physical AI Assistant</h3>
+                <p>RAG-powered • Always learning</p>
               </div>
             </div>
             <button className="close-btn" onClick={() => setIsOpen(false)}>
@@ -286,9 +502,36 @@ export default function AIAssistantFloat() {
           <div className="chat-messages">
             {messages.map((msg, i) => (
               <div key={i} className={`message ${msg.type}`}>
-                <div className="message-bubble">{msg.text}</div>
+                <div className="message-bubble">
+                  {msg.text}
+                  
+                  {msg.sources && msg.sources.length > 0 && (
+                    <div className="sources">
+                      <div className="sources-title">📚 Sources:</div>
+                      {msg.sources.map((source, idx) => (
+                        <div key={idx} className="source-item">
+                          <span className="source-badge">{(source.relevance_score * 100).toFixed(0)}%</span>
+                          <span>{source.title}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <div className="message-time">{formatTime(msg.timestamp)}</div>
               </div>
             ))}
+            
+            {isLoading && (
+              <div className="message bot">
+                <div className="loading-indicator">
+                  <div className="loading-dot"></div>
+                  <div className="loading-dot"></div>
+                  <div className="loading-dot"></div>
+                </div>
+              </div>
+            )}
+            
+            <div ref={messagesEndRef} />
           </div>
 
           <div className="chat-input">
@@ -297,9 +540,14 @@ export default function AIAssistantFloat() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
+              placeholder="Ask about robotics, AI, ROS 2..."
+              disabled={isLoading}
             />
-            <button className="send-btn" onClick={handleSend}>
+            <button 
+              className="send-btn" 
+              onClick={handleSend}
+              disabled={isLoading || !message.trim()}
+            >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
               </svg>
@@ -308,12 +556,11 @@ export default function AIAssistantFloat() {
         </div>
       )}
 
-      {/* Float Button */}
       <div className="ai-float-container">
         <div className="ai-float-button" onClick={() => setIsOpen(!isOpen)}>
           <div className="pulse-ring"></div>
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
           </svg>
           <div className="online-indicator"></div>
         </div>
