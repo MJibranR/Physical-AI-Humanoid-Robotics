@@ -4,6 +4,7 @@ import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
+import Chatbot from '../components/RAGChatbot'; // Import the Chatbot component
 import ChapterCards from '../components/ChapterCards'; // Import the new component
 
 import styles from './index.module.css';
@@ -39,6 +40,7 @@ export default function Home(): ReactNode {
       <main>
         <ChapterCards />
       </main>
+      <Chatbot />
     </Layout>
   );
 }
