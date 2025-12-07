@@ -1,0 +1,188 @@
+/**
+ * CSS files with the .module.css suffix will be treated as CSS modules
+ * and scoped locally.
+ */
+
+.chapterCardsContainer {
+  padding: 4rem 0;
+  background-color: var(--ifm-background-color);
+}
+
+.sectionTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(120deg, var(--ifm-color-primary), var(--ifm-color-primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+.sectionSubtitle {
+  font-size: 1.2rem;
+  color: var(--ifm-color-emphasis-600);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.chapterCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none !important;
+  color: inherit !important;
+  border-radius: 16px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  overflow: hidden;
+  background: var(--ifm-card-background-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.chapterCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  border-color: var(--ifm-color-primary-light);
+  text-decoration: none !important;
+}
+
+.chapterCard .card__header {
+  padding: 2rem 1.5rem 1rem;
+  text-align: center;
+}
+
+.iconContainer {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.chapterCard:hover .iconContainer {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.chapterIcon {
+  font-size: 2.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.chapterTitle {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  color: var(--ifm-heading-color);
+}
+
+.chapterCard .card__body {
+  padding: 0 1.5rem 1rem;
+  flex-grow: 1;
+}
+
+.chapterDescription {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ifm-color-emphasis-700);
+  margin: 0;
+}
+
+.chapterCard .card__footer {
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid var(--ifm-color-emphasis-100);
+}
+
+.chapterCard .button {
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.chapterCard:hover .button {
+  transform: translateX(4px);
+}
+
+/* Legacy support for SVG icons if needed */
+.chapterCardSvg {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Responsive design */
+@media screen and (max-width: 996px) {
+  .chapterCardsContainer {
+    padding: 3rem 0;
+  }
+
+  .sectionTitle {
+    font-size: 2rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 1rem;
+  }
+
+  .chapterCard {
+    margin-bottom: 2rem;
+  }
+
+  .iconContainer {
+    width: 70px;
+    height: 70px;
+  }
+
+  .chapterIcon {
+    font-size: 2rem;
+  }
+
+  .chapterTitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* Animation for cards on load */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chapterCard {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.chapterCard:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.chapterCard:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.chapterCard:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.chapterCard:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.chapterCard:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.chapterCard:nth-child(6) {
+  animation-delay: 0.6s;
+}

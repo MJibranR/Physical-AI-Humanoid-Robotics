@@ -1,11 +1,11 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'My Site',
+  title: 'Physical AI & Humanoid Robotics',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
@@ -75,65 +75,54 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'My Site',
+      title: 'Physical AI & Humanoid Robotics',
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo.svg',
       },
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
-          position: 'left',
-          label: 'Tutorial',
-        },
-        {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/docs/book-toc', label: 'Book', position: 'left'},
         {
           href: 'https://github.com/facebook/docusaurus',
           label: 'GitHub',
           position: 'right',
-        },
-      ],
+        },],
     },
     footer: {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'TEXTBOOK',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
+              label: 'Table of Contents',
+              to: '/docs/book-toc',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'RESOURCES',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'ROS 2 Docs',
+              href: 'https://docs.ros.org/en/humble/',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
+              label: 'Gazebo Simulator',
+              href: 'https://gazebosim.org',
             },
             {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: 'NVIDIA Isaac Sim',
+              href: 'https://developer.nvidia.com/isaac-sim',
             },
           ],
         },
         {
-          title: 'More',
+          title: 'MORE',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics', // Placeholder
             },
           ],
         },

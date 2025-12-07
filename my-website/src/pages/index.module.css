@@ -4,20 +4,188 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 6rem 2rem;
   text-align: center;
   position: relative;
   overflow: hidden;
+  background: linear-gradient(135deg, var(--ifm-color-primary-lightest) 0%, var(--ifm-background-color) 100%);
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 3rem 1.5rem;
   }
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.heroBanner .hero__title {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(120deg, var(--ifm-color-primary), var(--ifm-color-primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner .hero__title {
+    font-size: 2.5rem;
+  }
+}
+
+.heroBanner .hero__subtitle {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
+  font-size: 1.25rem;
+  color: var(--ifm-color-emphasis-700);
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner .hero__subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+.heroBanner .buttonGroup {
+  animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: 0.9s;
+  opacity: 0;
 }
 
 .buttons {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.buttonGroup .button {
+  padding: 0.875rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.buttonGroup .button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.buttonGroup .button:hover::before {
+  left: 100%;
+}
+
+.buttonGroup .button--primary {
+  background: linear-gradient(135deg, var(--ifm-color-primary), var(--ifm-color-primary-dark));
+  border: none;
+}
+
+.buttonGroup .button--primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1);
+}
+
+.buttonGroup .button--primary:active {
+  transform: translateY(-1px) scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.buttonGroup .button--secondary {
+  background: transparent;
+  border: 2px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.buttonGroup .button--secondary:hover {
+  background: var(--ifm-color-primary);
+  color: white;
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.buttonGroup .button--secondary:active {
+  transform: translateY(-1px) scale(1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Decorative elements */
+.heroBanner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--ifm-color-primary-lightest) 0%, transparent 70%);
+  opacity: 0.3;
+  animation: float 6s ease-in-out infinite;
+}
+
+.heroBanner::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--ifm-color-primary-lightest) 0%, transparent 70%);
+  opacity: 0.2;
+  animation: float 8s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner::before,
+  .heroBanner::after {
+    width: 300px;
+    height: 300px;
+  }
 }
