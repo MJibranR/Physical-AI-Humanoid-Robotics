@@ -1,0 +1,54 @@
+openapi: 3.0.0
+info:
+  title: RAG Chatbot API
+  version: 1.0.0
+  description: A simple API for the AI-Native Textbook chatbot.
+
+paths:
+  /chat:
+    post:
+      summary: Get a response from the chatbot
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIResponse'
+        '400':
+          description: Bad Request (e.g., empty question)
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+    APIRequest:
+      type: object
+      properties:
+        question:
+          type: string
+          description: The user's question.
+          example: "What is ROS 2?"
+      required:
+        - question
+
+    APIResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+          description: The chatbot's answer.
+        sources:
+          type: array
+          items:
+            type: string
+          description: A list of source text snippets from the book.
+      required:
+        - answer
+        - sources
