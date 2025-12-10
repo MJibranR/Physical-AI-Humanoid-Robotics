@@ -2,6 +2,5 @@ fastapi
 uvicorn
 python-dotenv
 google-generativeai
-faiss-cpu
-sentence-transformers
 qdrant-client
+faiss-cpu
