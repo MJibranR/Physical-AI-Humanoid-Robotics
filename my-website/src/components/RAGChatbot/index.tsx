@@ -21,7 +21,7 @@ export default function AIAssistantFloat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Backend URL - Change this to your deployed backend URL
-  const BACKEND_URL = 'http://localhost:8000';
+  const BACKEND_URL = 'https://physical-ai-humanoid-robotics-arkh.vercel.app/';
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });

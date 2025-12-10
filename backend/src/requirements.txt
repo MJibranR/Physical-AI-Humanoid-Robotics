@@ -1,5 +1,7 @@
 fastapi
+uvicorn
+python-dotenv
 google-generativeai
-scikit-learn
-numpy
-pydantic
+faiss-cpu
+sentence-transformers
+qdrant-client
