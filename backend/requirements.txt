@@ -1,0 +1,12 @@
+fastapi==0.95.2
+uvicorn[standard]==0.22.0
+python-dotenv==1.2.1
+google-generativeai==0.8.5
+qdrant-client==1.16.1
+sentence-transformers==2.2.2
+torch==2.2.2
+faiss-cpu==1.7.3
+transformers==4.31.0
+numpy==1.25.2
+scikit-learn==1.2.2
+pydantic==2.12.5

@@ -1,33 +1,23 @@
+# app.py
+import os
+from typing import List, Dict
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import os
 import google.generativeai as genai
-from typing import List, Dict
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-import json
 
-app = FastAPI()
+# Set env config
+GENIE_API_KEY = os.getenv("GEMINI_API_KEY") or os.getenv("GENIE_API_KEY")
+QDRANT_URL = os.getenv("QDRANT_URL")
+QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
+QDRANT_COLLECTION = os.getenv("QDRANT_COLLECTION", "textbook_chunks")
 
-# Enhanced CORS settings
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "https://physical-ai-humanoid-robotics-three.vercel.app",
-        "https://www.physical-ai-humanoid-robotics-three.vercel.app"
-    ],
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS", "PUT", "DELETE"],
-    allow_headers=["*"],
-)
+if GENIE_API_KEY:
+    genai.configure(api_key=GENIE_API_KEY)
 
-# Configure Gemini API
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-genai.configure(api_key=GEMINI_API_KEY)
-
-# Knowledge base from your textbook
+# -- Paste your full KNOWLEDGE_BASE here (copy from your existing code) --
 KNOWLEDGE_BASE = [
     {
         "id": "intro_physical_ai",
@@ -147,69 +137,66 @@ KNOWLEDGE_BASE = [
         Future Outlook: Integration into daily life, advancements in dexterity and mobility, sophisticated cognitive architectures."""
     }
 ]
+# -- end KB --
 
-class VectorStore:
-    def __init__(self):
+app = FastAPI(title="Physical AI RAG Backend")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Lazy global for embedding model
+_embedding_model = None
+
+def get_embedding_model():
+    global _embedding_model
+    if _embedding_model is None:
+        # lazy import to avoid loading on startup
+        from sentence_transformers import SentenceTransformer
+        _embedding_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+    return _embedding_model
+
+# Simple in-memory vector store (builds on start)
+class InMemoryVectorStore:
+    def __init__(self, kb):
+        self.documents = kb
         self.embeddings = []
-        self.documents = []
-        self.model = genai.GenerativeModel("models/gemini-2.0-flash")
-        self._initialize_embeddings()
-    
-    def _get_embedding(self, text: str) -> List[float]:
-        """Generate embeddings using Gemini's embedding model"""
-        try:
-            result = genai.embed_content(
-                model="models/text-embedding-004",
-                content=text,
-                task_type="retrieval_document"
-            )
-            return result['embedding']
-        except Exception as e:
-            print(f"Error generating embedding: {e}")
-            # Fallback: simple bag-of-words representation
-            return [hash(word) % 1000 for word in text.lower().split()[:100]]
-    
-    def _initialize_embeddings(self):
-        """Pre-compute embeddings for all documents"""
-        print("Initializing vector store with document embeddings...")
-        for doc in KNOWLEDGE_BASE:
-            embedding = self._get_embedding(doc["content"])
-            self.embeddings.append(embedding)
-            self.documents.append(doc)
-        print(f"Initialized {len(self.documents)} documents in vector store")
-    
-    def search(self, query: str, top_k: int = 3) -> List[Dict]:
-        """Search for most relevant documents"""
-        try:
-            query_embedding = self._get_embedding(query)
-            
-            # Calculate cosine similarities
-            similarities = []
-            for doc_embedding in self.embeddings:
-                similarity = cosine_similarity(
-                    [query_embedding], 
-                    [doc_embedding]
-                )[0][0]
-                similarities.append(similarity)
-            
-            # Get top-k indices
-            top_indices = np.argsort(similarities)[-top_k:][::-1]
-            
-            results = []
-            for idx in top_indices:
-                results.append({
-                    "document": self.documents[idx],
-                    "score": float(similarities[idx])
-                })
-            
-            return results
-        except Exception as e:
-            print(f"Search error: {e}")
-            # Fallback: return first 3 documents
-            return [{"document": doc, "score": 0.5} for doc in self.documents[:top_k]]
+        self._build()
 
-# Initialize vector store
-vector_store = VectorStore()
+    def _get_embedding(self, text: str):
+        # Prefer Gemini embeddings if available
+        if GENIE_API_KEY:
+            try:
+                res = genai.embed_content(model="models/text-embedding-004", content=text, task_type="retrieval_document")
+                return res["embedding"]
+            except Exception as e:
+                print("Gemini embedding failed:", e)
+        # fallback to local model
+        model = get_embedding_model()
+        return model.encode(text, convert_to_tensor=False).tolist()
+
+    def _build(self):
+        for d in self.documents:
+            emb = self._get_embedding(d["content"])
+            self.embeddings.append(emb)
+
+    def search(self, query: str, top_k: int = 3):
+        q_emb = self._get_embedding(query)
+        sims = []
+        for emb in self.embeddings:
+            try:
+                sim = float(cosine_similarity([q_emb], [emb])[0][0])
+            except Exception:
+                sim = 0.0
+            sims.append(sim)
+        idxs = np.argsort(sims)[-top_k:][::-1]
+        return [{"document": self.documents[i], "score": float(sims[i])} for i in idxs]
+
+vector_store = InMemoryVectorStore(KNOWLEDGE_BASE)
 
 class ChatRequest(BaseModel):
     message: str
@@ -220,109 +207,33 @@ class ChatResponse(BaseModel):
 
 @app.get("/")
 async def root():
-    return {
-        "message": "Physical AI Humanoid Robotics RAG Backend",
-        "version": "2.0",
-        "features": ["RAG", "Vector Search", "Context-Aware Responses"]
-    }
-
-@app.get("/health")
-async def health_check():
-    return {
-        "status": "healthy",
-        "service": "Physical AI Humanoid Robotics RAG System",
-        "documents_indexed": len(KNOWLEDGE_BASE)
-    }
+    return {"message": "Physical AI Humanoid Robotics RAG Backend", "version": "2.0"}
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
+    if not req.message or not req.message.strip():
+        raise HTTPException(status_code=400, detail="Empty message")
     try:
-        if not req.message or req.message.strip() == "":
-            return ChatResponse(
-                response="Please provide a message.",
-                sources=[]
-            )
-        
-        # Step 1: Retrieve relevant documents
         search_results = vector_store.search(req.message, top_k=3)
-        
-        # Step 2: Build context from retrieved documents
-        context = "\n\n".join([
-            f"[Source: {result['document']['title']}]\n{result['document']['content']}"
-            for result in search_results
-        ])
-        
-        # Step 3: Generate response with context
-        model = genai.GenerativeModel("models/gemini-2.0-flash")
-        
-        system_prompt = f"""You are an expert AI assistant specializing in Physical AI and Humanoid Robotics. 
-You have access to a comprehensive textbook on the subject.
+        context = "\n\n".join([f"[Source: {r['document']['title']}]\n{r['document']['content']}" for r in search_results])
 
-Your role is to:
-1. Answer questions accurately based on the provided context
-2. Be helpful, clear, and educational
-3. Cite specific concepts from the context when relevant
-4. If the question is outside the context, acknowledge it and provide general guidance
-5. Use technical terms appropriately but explain them when necessary
+        if GENIE_API_KEY:
+            prompt = f"""You are an expert assistant for Physical AI and Humanoid Robotics.
+Use the context below to answer the user concisely and cite sources when helpful.
 
-Context from the textbook:
+Context:
 {context}
 
-Guidelines:
-- Always prioritize information from the context
-- Be concise but thorough
-- Use examples from the context when helpful
-- If uncertain, acknowledge limitations
-"""
-        
-        full_prompt = f"{system_prompt}\n\nUser Question: {req.message}\n\nAssistant Response:"
-        
-        response = model.generate_content(full_prompt)
-        
-        # Step 4: Prepare sources for frontend
-        sources = [
-            {
-                "title": result['document']['title'],
-                "relevance_score": round(result['score'], 3)
-            }
-            for result in search_results
-        ]
-        
-        return ChatResponse(
-            response=response.text,
-            sources=sources
-        )
-    
+User question: {req.message}
+
+Answer:"""
+            model = genai.GenerativeModel("models/gemini-2.0-flash")
+            gen = model.generate_content(prompt)
+            answer = gen.text
+        else:
+            answer = f"Context used:\n{context}\n\n(no Gemini API configured)"
+
+        sources = [{"title": r["document"]["title"], "relevance_score": round(r["score"], 3)} for r in search_results]
+        return ChatResponse(response=answer, sources=sources)
     except Exception as e:
-        print(f"Error in chat endpoint: {e}")
-        return ChatResponse(
-            response=f"I apologize, but I encountered an error: {str(e)}. Please try again.",
-            sources=[]
-        )
-
-@app.options("/api/chat")
-async def options_chat():
-    return {"message": "OK"}
-
-@app.get("/api/documents")
-async def list_documents():
-    """List all documents in the knowledge base"""
-    return {
-        "total": len(KNOWLEDGE_BASE),
-        "documents": [
-            {"id": doc["id"], "title": doc["title"]}
-            for doc in KNOWLEDGE_BASE
-        ]
-    }
-
-@app.get("/api/document/{doc_id}")
-async def get_document(doc_id: str):
-    """Get a specific document by ID"""
-    doc = next((d for d in KNOWLEDGE_BASE if d["id"] == doc_id), None)
-    if not doc:
-        raise HTTPException(status_code=404, detail="Document not found")
-    return doc
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+        raise HTTPException(status_code=500, detail=str(e))
