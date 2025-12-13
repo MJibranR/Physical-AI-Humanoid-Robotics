@@ -336,60 +336,60 @@
     "message": "شروع کریں"
   },
   "Introduction": {
-    "message": "Introduction"
+    "message": "تعارف"
   },
   "Explore the fundamentals of Physical AI and Humanoid Robotics, setting the stage for advanced concepts.": {
-    "message": "Explore the fundamentals of Physical AI and Humanoid Robotics, setting the stage for advanced concepts."
+    "message": "فزیکل اے آئی اور ہیومنائیڈ روبوٹکس کے بنیادی اصولوں کو دریافت کریں، جو جدید تصورات کے لیے اسٹیج تیار کرتا ہے۔"
   },
   "Chapter 1: Robotics Fundamentals": {
-    "message": "Chapter 1: Robotics Fundamentals"
+    "message": "باب 1: روبوٹکس کے بنیادی اصول"
   },
   "Master the core principles of robotics including mechanics, sensors, actuators, and control systems.": {
-    "message": "Master the core principles of robotics including mechanics, sensors, actuators, and control systems."
+    "message": "میکینکس، سینسرز، ایکچویٹرز، اور کنٹرول سسٹمز سمیت روبوٹکس کے بنیادی اصولوں میں مہارت حاصل کریں۔"
   },
   "Chapter 2: Artificial Intelligence in Robotics": {
-    "message": "Chapter 2: Artificial Intelligence in Robotics"
+    "message": "باب 2: روبوٹکس میں مصنوعی ذہانت"
   },
   "Discover how AI powers modern robotics through machine learning, computer vision, and decision-making algorithms.": {
-    "message": "Discover how AI powers modern robotics through machine learning, computer vision, and decision-making algorithms."
+    "message": "دریافت کریں کہ کس طرح اے آئی مشین لرننگ، کمپیوٹر ویژن، اور فیصلہ سازی کے الگورتھم کے ذریعے جدید روبوٹکس کو طاقت دیتی ہے۔"
   },
   "Chapter 3: Humanoid Robot Anatomy": {
-    "message": "Chapter 3: Humanoid Robot Anatomy"
+    "message": "باب 3: ہیومنائیڈ روبوٹ اناٹومی"
   },
   "Understand the structural design, joint systems, and biomechanics that enable human-like movement.": {
-    "message": "Understand the structural design, joint systems, and biomechanics that enable human-like movement."
+    "message": "ساختی ڈیزائن، جوائنٹ سسٹمز، اور بائیو میکینکس کو سمجھیں جو انسان جیسی حرکت کو ممکن بناتے ہیں۔"
   },
   "Chapter 4: Locomotion and Balance": {
-    "message": "Chapter 4: Locomotion and Balance"
+    "message": "باب 4: حرکت اور توازن"
   },
   "Learn advanced techniques for bipedal walking, dynamic balance, and stable movement in complex environments.": {
-    "message": "Learn advanced techniques for bipedal walking, dynamic balance, and stable movement in complex environments."
+    "message": "پیچیدہ ماحول میں دو ٹانگوں والی چال، متحرک توازن، اور مستحکم حرکت کے لیے جدید تکنیک سیکھیں۔"
   },
   "Chapter 5: Human-Robot Interaction": {
-    "message": "Chapter 5: Human-Robot Interaction"
+    "message": "باب 5: انسانی روبوٹ تعامل"
   },
   "Explore natural communication, social robotics, and designing intuitive interfaces for human collaboration.": {
-    "message": "Explore natural communication, social robotics, and designing intuitive interfaces for human collaboration."
+    "message": "قدرتی مواصلات، سماجی روبوٹکس، اور انسانی تعاون کے لیے بدیہی انٹرفیس ڈیزائن کرنا۔"
   },
   "Chapter 6: Ethical Considerations": {
-    "message": "Chapter 6: Ethical Considerations"
+    "message": "باب 6: اخلاقی تحفظات"
   },
   "Examine the moral implications, safety protocols, and societal impact of humanoid robotics technology.": {
-    "message": "Examine the moral implications, safety protocols, and societal impact of humanoid robotics technology."
+    "message": "ہیومنائیڈ روبوٹکس ٹیکنالوجی کے اخلاقی مضمرات، حفاظتی پروٹوکولز، اور سماجی اثرات کا جائزہ لیں۔"
   },
   "Conclusion": {
-    "message": "Conclusion"
+    "message": "نتیجہ"
   },
   "Summarize key learnings, explore future outlooks, and find resources for further reading and research.": {
-    "message": "Summarize key learnings, explore future outlooks, and find resources for further reading and research."
+    "message": "اہم سیکھنے کا خلاصہ کریں، مستقبل کے امکانات کو تلاش کریں، اور مزید پڑھنے اور تحقیق کے لیے وسائل تلاش کریں۔"
   },
   "Read More →": {
-    "message": "Read More →"
+    "message": "مزید پڑھیں ←"
   },
   "Book Chapters": {
-    "message": "Book Chapters"
+    "message": "کتاب کے ابواب"
   },
   "Explore our comprehensive guide to Physical AI and Humanoid Robotics": {
-    "message": "Explore our comprehensive guide to Physical AI and Humanoid Robotics"
+    "message": "فزیکل اے آئی اور ہیومنائیڈ روبوٹکس کے لیے ہماری جامع گائیڈ کو دریافت کریں۔"
   }
 }
