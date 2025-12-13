@@ -20,7 +20,7 @@ export default function AIAssistantFloat() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const BACKEND_URL = 'https://huggingface.co/spaces/MuhammadJibran/MJR/api/predict';
+  const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
