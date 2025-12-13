@@ -1,27 +1,22 @@
-# Use a stable slim Python base
 FROM python:3.10-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install system packages needed by some ML libs and qdrant-client
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential curl git libc6-dev libsndfile1 ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy requirements first for Docker cache efficiency
-COPY requirements.txt /app/requirements.txt
+# Copy only MJR requirements
+COPY MJR/requirements.txt /app/requirements.txt
 
-# Upgrade pip and install dependencies
 RUN python -m pip install --upgrade pip setuptools wheel
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Copy app code
-COPY . /app
+# Copy ONLY the MJR app
+COPY MJR /app
 
-# Expose the port (Spaces commonly uses 7860 but it accepts other ports too)
 EXPOSE 7860
 
-# Run the app via uvicorn
-CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860", "--workers", "1"]
+CMD ["uvicorn", "index:app", "--host", "0.0.0.0", "--port", "7860"]
