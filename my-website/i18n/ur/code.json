@@ -84,7 +84,7 @@
     "description": "Pluralized label for \"{count} docs tagged\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
   },
   "theme.docs.tagDocListPageTitle": {
-    "message": "{nDocsTagged} with \"{tagName}\"",
+    "message": "{nDocsTagged} with \"{tagName}\",
     "description": "The title of the page for a docs tag"
   },
   "theme.docs.versionBadge.label": {
@@ -279,7 +279,7 @@
     "description": "Pluralized label for \"{count} posts\". Use as much plural forms (separated by \"|\") as your language support (see https://www.unicode.org/cldr/cldr-aux/charts/34/supplemental/language_plural_rules.html)"
   },
   "theme.blog.tagTitle": {
-    "message": "{nPosts} tagged with \"{tagName}\"",
+    "message": "{nPosts} tagged with \"{tagName}\",
     "description": "The title of the page for a blog tag"
   },
   "theme.blog.author.pageTitle": {
@@ -391,5 +391,23 @@
   },
   "Explore our comprehensive guide to Physical AI and Humanoid Robotics": {
     "message": "فزیکل اے آئی اور ہیومنائیڈ روبوٹکس کے لیے ہماری جامع گائیڈ کو دریافت کریں۔"
+  },
+  "Hi! I'm your Physical AI & Humanoid Robotics assistant. Ask me anything about robotics, AI, ROS 2, humanoid design, or locomotion!": {
+    "message": "ہائے! میں آپ کا فزیکل اے آئی اور ہیومنائیڈ روبوٹکس اسسٹنٹ ہوں۔ مجھ سے روبوٹکس، اے آئی، ROS 2، ہیومنائیڈ ڈیزائن، یا حرکت کے بارے میں کچھ بھی پوچھیں!"
+  },
+  "I apologize, but I cannot reach the server. Please try again later.": {
+    "message": "میں معذرت خواہ ہوں، لیکن میں سرور تک نہیں پہنچ سکتا۔ براہ کرم بعد میں دوبارہ کوشش کریں۔"
+  },
+  "Physical AI Assistant": {
+    "message": "فزیکل اے آئی اسسٹنٹ"
+  },
+  "RAG-powered • Always learning": {
+    "message": "RAG سے چلنے والا • ہمیشہ سیکھنے والا"
+  },
+  "📚 Sources:": {
+    "message": "📚 ذرائع:"
+  },
+  "Ask about robotics, AI, ROS 2...": {
+    "message": "روبوٹکس، اے آئی، ROS 2 کے بارے میں پوچھیں..."
   }
 }

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import Translate from '@docusaurus/Translate';
 
 interface Message {
   type: 'user' | 'bot';
@@ -10,18 +11,27 @@ interface Message {
 export default function AIAssistantFloat() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState<Message[]>([
-    { 
-      type: 'bot', 
-      text: 'Hi! I\'m your Physical AI & Humanoid Robotics assistant. Ask me anything about robotics, AI, ROS 2, humanoid design, or locomotion!',
-      timestamp: new Date()
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
+  const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
 
+  useEffect(() => {
+    setMessages([
+      {
+        type: 'bot',
+        text: String(
+          <Translate>
+            Hi! I'm your Physical AI & Humanoid Robotics assistant. Ask me
+            anything about robotics, AI, ROS 2, humanoid design, or
+            locomotion!
+          </Translate>
+        ),
+        timestamp: new Date(),
+      },
+    ]);
+  }, []);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -57,7 +67,7 @@ const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
       console.error(error);
       setMessages(prev => [...prev, {
         type: 'bot',
-        text: 'I apologize, but I cannot reach the server. Please try again later.',
+        text: String(<Translate>I apologize, but I cannot reach the server. Please try again later.</Translate>),
         timestamp: new Date()
       }]);
     } finally {
@@ -473,8 +483,8 @@ const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
                 </svg>
               </div>
               <div className="chat-title">
-                <h3>Physical AI Assistant</h3>
-                <p>RAG-powered • Always learning</p>
+                <h3><Translate>Physical AI Assistant</Translate></h3>
+                <p><Translate>RAG-powered • Always learning</Translate></p>
               </div>
             </div>
             <button className="close-btn" onClick={() => setIsOpen(false)}>
@@ -492,7 +502,7 @@ const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
                   
                   {msg.sources && msg.sources.length > 0 && (
                     <div className="sources">
-                      <div className="sources-title">📚 Sources:</div>
+                      <div className="sources-title"><Translate>📚 Sources:</Translate></div>
                       {msg.sources.map((source, idx) => (
                         <div key={idx} className="source-item">
                           <span className="source-badge">{(source.relevance_score * 100).toFixed(0)}%</span>
@@ -525,7 +535,7 @@ const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask about robotics, AI, ROS 2..."
+              placeholder={String(<Translate>Ask about robotics, AI, ROS 2...</Translate>)}
               disabled={isLoading}
             />
             <button 
