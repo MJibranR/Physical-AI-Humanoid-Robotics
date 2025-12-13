@@ -334,5 +334,62 @@
   },
   "GET STARTED": {
     "message": "شروع کریں"
+  },
+  "Introduction": {
+    "message": "Introduction"
+  },
+  "Explore the fundamentals of Physical AI and Humanoid Robotics, setting the stage for advanced concepts.": {
+    "message": "Explore the fundamentals of Physical AI and Humanoid Robotics, setting the stage for advanced concepts."
+  },
+  "Chapter 1: Robotics Fundamentals": {
+    "message": "Chapter 1: Robotics Fundamentals"
+  },
+  "Master the core principles of robotics including mechanics, sensors, actuators, and control systems.": {
+    "message": "Master the core principles of robotics including mechanics, sensors, actuators, and control systems."
+  },
+  "Chapter 2: Artificial Intelligence in Robotics": {
+    "message": "Chapter 2: Artificial Intelligence in Robotics"
+  },
+  "Discover how AI powers modern robotics through machine learning, computer vision, and decision-making algorithms.": {
+    "message": "Discover how AI powers modern robotics through machine learning, computer vision, and decision-making algorithms."
+  },
+  "Chapter 3: Humanoid Robot Anatomy": {
+    "message": "Chapter 3: Humanoid Robot Anatomy"
+  },
+  "Understand the structural design, joint systems, and biomechanics that enable human-like movement.": {
+    "message": "Understand the structural design, joint systems, and biomechanics that enable human-like movement."
+  },
+  "Chapter 4: Locomotion and Balance": {
+    "message": "Chapter 4: Locomotion and Balance"
+  },
+  "Learn advanced techniques for bipedal walking, dynamic balance, and stable movement in complex environments.": {
+    "message": "Learn advanced techniques for bipedal walking, dynamic balance, and stable movement in complex environments."
+  },
+  "Chapter 5: Human-Robot Interaction": {
+    "message": "Chapter 5: Human-Robot Interaction"
+  },
+  "Explore natural communication, social robotics, and designing intuitive interfaces for human collaboration.": {
+    "message": "Explore natural communication, social robotics, and designing intuitive interfaces for human collaboration."
+  },
+  "Chapter 6: Ethical Considerations": {
+    "message": "Chapter 6: Ethical Considerations"
+  },
+  "Examine the moral implications, safety protocols, and societal impact of humanoid robotics technology.": {
+    "message": "Examine the moral implications, safety protocols, and societal impact of humanoid robotics technology."
+  },
+  "Conclusion": {
+    "message": "Conclusion"
+  },
+  "Summarize key learnings, explore future outlooks, and find resources for further reading and research.": {
+    "message": "Summarize key learnings, explore future outlooks, and find resources for further reading and research."
+  },
+  "Read More →": {
+    "message": "Read More →"
+  },
+  "Book Chapters": {
+    "message": "Book Chapters"
+  },
+  "Explore our comprehensive guide to Physical AI and Humanoid Robotics": {
+    "message": "Explore our comprehensive guide to Physical AI and Humanoid Robotics"
   }
 }
