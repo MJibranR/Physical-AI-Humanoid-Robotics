@@ -37,7 +37,7 @@ const config: Config = {
   // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'ur'],
   },
 
   presets: [
@@ -94,6 +94,10 @@ const config: Config = {
         {
           href: 'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
           position: 'right',
         },
       ],
