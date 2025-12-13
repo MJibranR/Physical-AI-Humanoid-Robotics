@@ -551,7 +551,6 @@ const BACKEND_URL = 'https://muhammadjibran-mjr.hf.space/api/predict';
         </div>
       </div>
     </>
-  );
     </div>
   );
 }
