@@ -11,7 +11,7 @@ const config: Config = {
 
   // Custom fields for backend configuration
   customFields: {
-    backendUrl: process.env.BACKEND_URL || 'http://localhost:8000',
+    backendUrl: process.env.BACKEND_URL || 'https://muhammadjibran-mjr.hf.space/',
   },
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
