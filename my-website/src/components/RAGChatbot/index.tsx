@@ -20,8 +20,7 @@ export default function AIAssistantFloat() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Backend URL - Change this to your deployed backend URL
-  const BACKEND_URL = 'https://huggingface.co/spaces/MuhammadJibran/MJR';
+  const BACKEND_URL = 'https://huggingface.co/spaces/MuhammadJibran/MJR/api/predict';
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -29,49 +28,37 @@ export default function AIAssistantFloat() {
 
   const handleSend = async () => {
     if (!message.trim() || isLoading) return;
-    
+
     const userMessage = message.trim();
     setMessage('');
-    
-    const newUserMessage: Message = {
-      type: 'user',
-      text: userMessage,
-      timestamp: new Date()
-    };
-    setMessages(prev => [...prev, newUserMessage]);
+
+    setMessages(prev => [...prev, { type: 'user', text: userMessage, timestamp: new Date() }]);
     setIsLoading(true);
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/chat`, {
+      const response = await fetch(BACKEND_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message: userMessage }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: [userMessage] }),
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
       const data = await response.json();
-      
+
       const botMessage: Message = {
         type: 'bot',
-        text: data.response,
-        sources: data.sources,
+        text: data.data[0][0],
+        sources: data.data[0][1],
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
-      console.error('Error calling backend:', error);
-      
-      const errorMessage: Message = {
+      console.error(error);
+      setMessages(prev => [...prev, {
         type: 'bot',
-        text: 'I apologize, but I\'m having trouble connecting to the server. Please make sure the backend is running.',
+        text: 'I apologize, but I cannot reach the server. Please try again later.',
         timestamp: new Date()
-      };
-      setMessages(prev => [...prev, errorMessage]);
+      }]);
     } finally {
       setIsLoading(false);
     }
@@ -84,14 +71,12 @@ export default function AIAssistantFloat() {
     }
   };
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-  };
+  const formatTime = (date: Date) =>
+    date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
   return (
+    <div>
+        return (
     <>
       <style>{`
         .ai-float-container {
@@ -566,5 +551,7 @@ export default function AIAssistantFloat() {
         </div>
       </div>
     </>
+  );
+    </div>
   );
 }
