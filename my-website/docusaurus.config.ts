@@ -27,7 +27,7 @@ const config: Config = {
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'YourGitHubUser', // Usually your GitHub org/user name.
+  organizationName: 'MJibranR', // Usually your GitHub org/user name.
   projectName: 'Physical-AI-Humanoid-Robotics', // Usually your repo name.
 
   onBrokenLinks: 'throw',
@@ -49,7 +49,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics/tree/main/',
+            'https://github.com/MJibranR/Physical-AI-Humanoid-Robotics/tree/main/',
         },
         blog: {
           showReadingTime: true,
@@ -60,7 +60,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics/tree/main/',
+            'https://github.com/MJibranR/Physical-AI-Humanoid-Robotics/tree/main/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -92,7 +92,7 @@ const config: Config = {
           position: 'left'
         },
         {
-          href: 'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics',
+          href: 'https://github.com/MJibranR/Physical-AI-Humanoid-Robotics',
           label: 'GitHub',
           position: 'right',
         },
@@ -136,7 +136,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/YourGitHubUser/Physical-AI-Humanoid-Robotics',
+              href: 'https://github.com/MJibranR/Physical-AI-Humanoid-Robotics',
             },
           ],
         },
