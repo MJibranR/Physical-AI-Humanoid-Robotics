@@ -3,7 +3,7 @@ import Translate from '@docusaurus/Translate';
 
 interface Message {
   type: 'user' | 'bot';
-  text: string;
+  text: string | React.ReactNode; // Allow ReactNode
   sources?: Array<{ title: string; relevance_score: number }>;
   timestamp: Date;
 }
@@ -21,7 +21,7 @@ export default function AIAssistantFloat() {
     setMessages([
       {
         type: 'bot',
-        text: String(
+        text: ( // Directly use the Translate component here
           <Translate>
             Hi! I'm your Physical AI & Humanoid Robotics assistant. Ask me
             anything about robotics, AI, ROS 2, humanoid design, or
@@ -67,7 +67,11 @@ export default function AIAssistantFloat() {
       console.error(error);
       setMessages(prev => [...prev, {
         type: 'bot',
-        text: String(<Translate>I apologize, but I cannot reach the server. Please try again later.</Translate>),
+        text: (
+          <Translate>
+            I apologize, but I cannot reach the server. Please try again later.
+          </Translate>
+        ),
         timestamp: new Date()
       }]);
     } finally {
